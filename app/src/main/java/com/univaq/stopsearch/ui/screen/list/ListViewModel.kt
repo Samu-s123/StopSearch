@@ -30,6 +30,10 @@ class ListViewModel @Inject constructor(
         downloadStops()
     }
 
+    fun refresh() : Unit {
+        downloadStops()
+    }
+
     private fun downloadStops(){
         viewModelScope.launch{
             getStopUseCase().collect { resource ->

@@ -17,9 +17,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,7 +38,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.univaq.stopsearch.DetailActivity
 import com.univaq.stopsearch.domain.model.Stop
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen (
     modifier: Modifier = Modifier,
@@ -40,6 +52,24 @@ fun ListScreen (
 
     val context = LocalContext.current
 
+    val refreshing = rememberPullToRefreshState()
+    var isRefreshing by remember{ mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+
+    PullToRefreshBox(
+        state = refreshing,
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            coroutineScope.launch {
+                isRefreshing = true
+                viewModel.refresh()
+                delay(2.seconds)
+                isRefreshing = false
+            }
+        },
+        modifier = Modifier,
+    ) {
+
     if (uiState.loadingMsg != null){
         Box(
             modifier = modifier,
@@ -47,42 +77,41 @@ fun ListScreen (
         ){
             Text(text = uiState.loadingMsg)
         }
-        return
-    }
 
-    if (uiState.error != null){
+    } else if (uiState.error != null){
         Box(
             modifier = modifier,
             contentAlignment = Alignment.Center,
         ){
             Text(text = uiState.error)
         }
-        return
-    }
 
-    Column(
-        modifier = modifier
-    ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
+    }else {
+        Column(
+            modifier = modifier
         ) {
-            items(uiState.stops.size) { index ->
-                val stop = uiState.stops[index]
-                StopItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    stop = stop,
-                    onItemClick = {
-                        context.startActivity(
-                            Intent(context, DetailActivity::class.java)
-                                .also {
-                                    it.putExtra("name", stop.name)
-                                    it.putExtra("stop_id", stop.id)
-                                }
-                        )
-                    }
-                )
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                items(uiState.stops.size) { index ->
+                    val stop = uiState.stops[index]
+                    StopItem(
+                        modifier = Modifier.fillMaxWidth(),
+                        stop = stop,
+                        onItemClick = {
+                            context.startActivity(
+                                Intent(context, DetailActivity::class.java)
+                                    .also {
+                                        it.putExtra("name", stop.name)
+                                        it.putExtra("stop_id", stop.id)
+                                    }
+                            )
+                        }
+                    )
+                }
             }
         }
+    }
     }
 }
 

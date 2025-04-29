@@ -48,6 +48,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.univaq.stopsearch.domain.model.TripTime
+import com.univaq.stopsearch.ui.theme.AmaGreen
+import com.univaq.stopsearch.ui.theme.AmaRed
+import com.univaq.stopsearch.ui.theme.AmaWhite
 import network.chaintech.kmp_date_time_picker.ui.timepicker.WheelTimePickerView
 import network.chaintech.kmp_date_time_picker.utils.DateTimePickerView
 
@@ -91,7 +94,6 @@ fun DetailScreen (
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         if (!hasLaunched) {
-            println("gay")
             viewModel.onEvent(
                 DetailEvent.OnStopSelected(
                     stopId = stopId
@@ -212,10 +214,11 @@ fun BusItem(
                 Text(
                     modifier = Modifier
                         .padding(16.dp)
-                        .background(color = Color(0xFF91FFFF), shape = RoundedCornerShape(16.dp))
+                        .background(color = if(tripTime.routeShortName.contains("F")) AmaRed else AmaGreen, shape = RoundedCornerShape(16.dp))
                         .padding(24.dp),
                     text = tripTime.routeShortName,
-                    fontSize = 16.sp
+                    fontSize = 18.sp,
+                    color = AmaWhite
                 )
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally

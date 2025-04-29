@@ -114,6 +114,7 @@ class StopRoomRepository @Inject constructor(
                 list.map(LocalTripTime::toModel)
             }
     }
-
-
 }
+
+
+
