@@ -13,6 +13,8 @@ interface StopLocalRepository {
 
     fun getAllStops(): Flow<List<Stop>>
 
+    fun getStopsByName(stopFiltered : String): Flow<List<Stop>>
+
     suspend fun deleteAllStops()
 
 

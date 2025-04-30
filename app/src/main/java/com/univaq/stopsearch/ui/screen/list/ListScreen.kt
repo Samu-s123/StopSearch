@@ -43,6 +43,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
 @Composable
 fun ListScreen (
     modifier: Modifier = Modifier,
@@ -90,6 +91,7 @@ fun ListScreen (
         Column(
             modifier = modifier
         ) {
+
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
             ) {

@@ -16,8 +16,13 @@ import javax.inject.Inject
 data class ListUIState(
     val stops: List<Stop> = emptyList(),
     val loadingMsg: String? = null,
-    val error: String? = null
+    val error: String? = null,
+    val stopFiltered: String? = null
 )
+
+sealed class ListEvent {
+    data class OnFiltering(val stopFiltered: String) : ListEvent()
+}
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
@@ -34,7 +39,18 @@ class ListViewModel @Inject constructor(
         downloadStops()
     }
 
-    private fun downloadStops(){
+    fun onEvent(event: ListEvent){
+        when(event) {
+            is ListEvent.OnFiltering -> {
+                val stopFiltered = event.stopFiltered
+                uiState = uiState.copy(stopFiltered = stopFiltered)
+                downloadStops(stopFiltered)
+            }
+        }
+    }
+
+
+    private fun downloadStops(filteredStops :String? = null){
         viewModelScope.launch{
             getStopUseCase().collect { resource ->
                 when(resource){

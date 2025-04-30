@@ -88,6 +88,15 @@ class StopRoomRepository @Inject constructor(
         stopDao.deleteAllStops()
     }
 
+    override fun getStopsByName(stopFiltered: String): Flow<List<Stop>> {
+        return stopDao.getStopsByName(stopFiltered)
+            .map { list ->
+                list.map(LocalStop::toModel)
+            }
+    }
+
+
+
     /* TRIP TIME DATABASE */
     override suspend fun insertTripTime(tripTime: TripTime) {
         tripTimeDao.insertTripTime(tripTime.toLocal())
