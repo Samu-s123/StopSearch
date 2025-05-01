@@ -18,44 +18,31 @@ class GetStopsUseCase @Inject constructor(
 ) {
 
 
-    operator fun invoke(stopFiltered: String? = null): Flow<Resource<List<Stop>>> {
+    operator fun invoke(): Flow<Resource<List<Stop>>> {
         return flow {
             emit(Resource.Loading("Loading... "))
 
-            if (stopFiltered == null) {
-                stopLocalRepository.getAllStops()
-                    .catch {
-                        emit(Resource.Error("Error fetching stops from local database"))
-                    }
-                    .collect { list ->
+            stopLocalRepository.getAllStops()
+                .catch {
+                    emit(Resource.Error("Error fetching stops from local database"))
+                }
+                .collect { list ->
 
-                        if (list.isEmpty()) {
-                            try {
-                                val data = stopRemoteRepository.getStop()
-                                stopLocalRepository.insertStops(data)
-                                emit(Resource.Success(data))
-                                //data successfully fetched from remote database
-                            } catch (e: retrofit2.HttpException) {
-                                e.printStackTrace()
-                                emit(Resource.Error("Error fetching stops from remote database"))
-                            }
-                        } else {
-                            emit(Resource.Success(list))
+                    if (list.isEmpty()) {
+                        try {
+                            val data = stopRemoteRepository.getStop()
+                            stopLocalRepository.insertStops(data)
+                            emit(Resource.Success(data))
+                            //data successfully fetched from remote database
+                        } catch (e: retrofit2.HttpException) {
+                            e.printStackTrace()
+                            emit(Resource.Error("Error fetching stops from remote database"))
                         }
+                    } else {
+                        emit(Resource.Success(list))
                     }
-            } else{
-                stopLocalRepository.getStopsByName(stopFiltered)
-                    .catch {
-                        emit(Resource.Error("Error fetching stops from local database"))
-                    }
-                    .collect{ list ->
-                        if (list.isEmpty()){
-                            emit(Resource.Error("No Data Found"))
-                        }else{
-                            emit(Resource.Success(list))
-                        }
-                    }
-            }
+                }
+
         }
     }
 }

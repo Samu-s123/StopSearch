@@ -20,7 +20,4 @@ interface StopDao {
 
     @Query("DELETE FROM Stops")
     suspend fun deleteAllStops()
-
-    @Query("SELECT * FROM Stops WHERE name LIKE :stopFiltered ")
-    fun getStopsByName(stopFiltered : String): Flow<List<LocalStop>>
 }
