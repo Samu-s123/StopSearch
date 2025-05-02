@@ -13,3 +13,5 @@ val Pink40 = Color(0xFF7D5260)
 val AmaGreen = Color(0xFF397252)
 val AmaWhite = Color(0xFFFFFFFF)
 val AmaRed = Color(0xFFE3181E)
+val AmaLightGrey = Color.LightGray
+val AmaDarkGrey = Color.DarkGray

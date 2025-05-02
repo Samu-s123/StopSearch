@@ -17,6 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -51,6 +54,8 @@ import com.univaq.stopsearch.domain.model.TripTime
 import com.univaq.stopsearch.ui.theme.AmaGreen
 import com.univaq.stopsearch.ui.theme.AmaRed
 import com.univaq.stopsearch.ui.theme.AmaWhite
+import com.univaq.stopsearch.ui.theme.StopAppTheme
+import com.univaq.stopsearch.ui.tools.CircularProgressIndicator
 import network.chaintech.kmp_date_time_picker.ui.timepicker.WheelTimePickerView
 import network.chaintech.kmp_date_time_picker.utils.DateTimePickerView
 
@@ -73,12 +78,7 @@ fun DetailScreen (
 
 
     if (uiState.loadingMsg != null){
-        Box(
-            modifier = modifier,
-            contentAlignment = Alignment.Center,
-        ){
-            Text(text = uiState.loadingMsg)
-        }
+        CircularProgressIndicator(uiState.loadingMsg)
         return
     }
 
@@ -207,7 +207,7 @@ fun BusItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.LightGray)
+                .background(MaterialTheme.colorScheme.primary)
                 .padding(16.dp)
         ) {
             Row {

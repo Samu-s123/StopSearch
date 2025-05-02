@@ -2,15 +2,20 @@ package com.univaq.stopsearch.ui.screen.list
 
 import android.content.Intent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.SnapPosition
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import com.univaq.stopsearch.ui.tools.CircularProgressIndicator
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedCard
@@ -69,13 +74,7 @@ fun ListScreen (
     ) {
 
     if (uiState.loadingMsg != null){
-        Box(
-            modifier = modifier,
-            contentAlignment = Alignment.Center,
-        ){
-            Text(text = uiState.loadingMsg)
-        }
-
+        CircularProgressIndicator(uiState.loadingMsg)
     } else if (uiState.error != null){
         Box(
             modifier = modifier,
@@ -142,3 +141,4 @@ fun StopItem (
         Text(text = "   ${stop.name}")
     }
 }
+
