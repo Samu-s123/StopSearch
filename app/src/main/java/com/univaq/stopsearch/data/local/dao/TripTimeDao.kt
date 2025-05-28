@@ -24,8 +24,7 @@ interface TripTimeDao {
     @Query("SELECT * " +
             "FROM TripTime " +
             "WHERE stop_id = :stopId " +
-            "AND departure_time > :time " +
-            "AND arrival_time > :time  " +
+            "AND departure_time > :time "  +
             "GROUP BY trip_id, stop_sequence " +
             "ORDER BY departure_time, route_long_name")
     fun getTripAtStop(stopId: Int, time: String): Flow<List<LocalTripTime>>

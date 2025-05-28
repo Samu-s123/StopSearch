@@ -32,8 +32,3 @@ fun NavGraph(
     }
 }
 
-data class NavigationItem(
-    val title: String,
-    val icon: ImageVector,
-    val route: Screen
-)

@@ -64,8 +64,6 @@ class MainActivity : ComponentActivity() {
                         padding = padding
                     )
                 }
-
-
             }
         }
     }

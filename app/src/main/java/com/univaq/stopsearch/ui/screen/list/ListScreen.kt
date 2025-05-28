@@ -112,7 +112,6 @@ fun ListScreen (
                                 context.startActivity(
                                     Intent(context, DetailActivity::class.java)
                                         .also {
-                                            it.putExtra("name", stop.name)
                                             it.putExtra("stop_id", stop.id)
                                         }
                                 )

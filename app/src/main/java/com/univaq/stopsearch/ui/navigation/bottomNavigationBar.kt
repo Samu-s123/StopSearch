@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -56,3 +57,9 @@ fun bottomNavigationBar(
         }
     }
 }
+
+data class NavigationItem(
+    val title: String,
+    val icon: ImageVector,
+    val route: Screen
+)

@@ -56,7 +56,7 @@ class MapViewModel @Inject constructor(
 
         val cameraPosition = CameraPosition(
             LatLng(location.latitude, location.longitude),
-            13f,
+            15f,
             0f,
             0f
         )
@@ -67,12 +67,15 @@ class MapViewModel @Inject constructor(
                     latitude = it.lat.toDouble()
                     longitude = it.lon.toDouble()
                 }
-            location.distanceTo(stopLocation) <= 100
+            location.distanceTo(stopLocation) <= 300
         }
 
         uiState = uiState.copy(
             markerState = markerState,
-            filteredStops = filteredStops
+            filteredStops = filteredStops,
+            cameraPositionState = CameraPositionState(
+                position = cameraPosition
+            )
         )
     }
 

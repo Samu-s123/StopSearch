@@ -199,7 +199,7 @@ fun BusItem(
         stopId = 3,
         stopSequence = 1,
         tripId = 1
-    )
+    ) // Basic input parameters to work with preview
 ){
     Card(
         modifier = modifier
